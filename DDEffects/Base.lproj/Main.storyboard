@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="agD-co-bvY">
+                                <rect key="frame" x="157" y="620" width="60" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8mI-7E-lGw">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="+"/>
+                                        <connections>
+                                            <action selector="clickHomeBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aIU-ak-Lnk"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.54813058039999996" green="0.82536272320000004" blue="0.42625309750000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="8mI-7E-lGw" firstAttribute="leading" secondItem="agD-co-bvY" secondAttribute="leading" id="Awi-en-a4m"/>
+                                    <constraint firstItem="8mI-7E-lGw" firstAttribute="top" secondItem="agD-co-bvY" secondAttribute="top" id="DdZ-6C-4NE"/>
+                                    <constraint firstAttribute="width" constant="60" id="U10-52-Dh8"/>
+                                    <constraint firstAttribute="trailing" secondItem="8mI-7E-lGw" secondAttribute="trailing" id="aVl-5b-aUF"/>
+                                    <constraint firstAttribute="height" constant="60" id="wN3-aT-LNi"/>
+                                    <constraint firstAttribute="bottom" secondItem="8mI-7E-lGw" secondAttribute="bottom" id="yE7-Ez-7S5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="agD-co-bvY" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BYq-SL-Man"/>
+                            <constraint firstItem="agD-co-bvY" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="bottom" constant="-17" id="C8V-ek-kzk"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="homeBtn" destination="8mI-7E-lGw" id="pvL-Bx-aaZ"/>
+                        <outlet property="homeBtnView" destination="agD-co-bvY" id="8Mw-w8-xhu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
