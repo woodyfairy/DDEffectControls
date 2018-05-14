@@ -54,13 +54,18 @@
         [self.containerView addConstraints:@[top, bot, left, right]];
     }
     
-    CGAffineTransform rot = CGAffineTransformMakeRotation(M_PI * 0.95f);
+    CGAffineTransform rot = CGAffineTransformMakeRotation(M_PI * 0.99f);
     self.containerBackView.transform = rot;
-}
--(void)viewDidAppear:(BOOL)animated{
-    float anchorPointY = (self.containerBackView.bounds.size.height - 17)/self.containerBackView.bounds.size.height;
+    
+    //锚点设置，这里还没自动布局，不是真正的高度，需要手动计算
+    float backHeight = _height.constant + 80;
+    float anchorPointY = (backHeight - 17)/backHeight;
     self.containerBackView.layer.anchorPoint = CGPointMake(0.5f, anchorPointY);
 }
+//-(void)viewDidAppear:(BOOL)animated{
+//    float anchorPointY = (self.containerBackView.bounds.size.height - 17)/self.containerBackView.bounds.size.height;
+//    self.containerBackView.layer.anchorPoint = CGPointMake(0.5f, anchorPointY);
+//}
 -(void)show{
     self.window = [[UIWindow alloc] init];
     self.window.rootViewController = self;
@@ -99,7 +104,7 @@
 }
 -(void)hide{
     [UIView animateWithDuration:self.animTime * 0.7f animations:^{
-        CGAffineTransform rot = CGAffineTransformMakeRotation(M_PI * 0.95f);
+        CGAffineTransform rot = CGAffineTransformMakeRotation(M_PI * 0.99f);
         self.containerBackView.transform = rot;
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     }];

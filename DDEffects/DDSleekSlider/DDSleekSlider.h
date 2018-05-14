@@ -22,8 +22,10 @@ typedef NS_ENUM(NSInteger, DDSleekSliderShowType){
 @property (assign, nonatomic) id<DDSleekSliderDelegate> delegate;
 @property (assign, nonatomic) float min, max, value;
 @property (strong, nonatomic) UIColor *color;
-@property (assign, nonatomic) float barHeight, thumbHeight, thumbWidth;
+@property (assign, nonatomic) float barHeight, thumbHeight, thumbWidth;//UI
 @property (assign, nonatomic) DDSleekSliderShowType type;
+@property (assign, nonatomic) BOOL accuracy;//根据y距离提高精度
+
 -(void)setValueWithAnimation:(float)value aminTime:(float)time;
 
 //获取对应值的x坐标

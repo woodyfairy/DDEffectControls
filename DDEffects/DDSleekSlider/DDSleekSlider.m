@@ -53,6 +53,7 @@
     _thumbWidth = 80;
     _inset = _thumbWidth/2 + _barHeight/2;
     _type = TopSide;
+    _accuracy = NO;
     _thumbView = [[UIView alloc] init];
     _thumbView.backgroundColor = [UIColor clearColor];
     [self addSubview:_thumbView];
@@ -128,8 +129,11 @@
         CGPoint pos = [gesture translationInView:self];
         //NSLog(@"pos:%@", NSStringFromCGPoint(pos));
         float deltaX = pos.x - _touchStartPos.x;
-        float delatY = fabs(pos.y - _touchStartPos.y);
-        deltaX = deltaX * pow(0.996f, delatY);//偏离越多，位移越小，微调
+        if (_accuracy) {
+            float delatY = fabs(pos.y - _touchStartPos.y) - 20;//20只内不算
+            delatY = MAX(delatY, 0);
+            deltaX = deltaX * pow(0.997f, delatY);//偏离越多，位移越小，微调
+        }
         float newX = _touchStartThumbPos.x + deltaX;
         if (newX < _inset) {
             newX = _inset;

@@ -20,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    float width = self.view.bounds.size.width;
+    float width = [UIScreen mainScreen].bounds.size.width;
     //float height = self.view.bounds.size.height;
     
     self.homeBtnView.clipsToBounds = YES;
