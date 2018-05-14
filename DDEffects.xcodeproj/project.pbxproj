@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8839B6D720A93B4600009765 /* DDAnimNumberLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8839B6D620A93B4600009765 /* DDAnimNumberLabel.m */; };
-		8839B6DA20A95D3500009765 /* UILabel+Copy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8839B6D920A95D3500009765 /* UILabel+Copy.m */; };
 		88677BB620A53AAA007DFFB1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 88677BB520A53AAA007DFFB1 /* AppDelegate.m */; };
 		88677BB920A53AAA007DFFB1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88677BB820A53AAA007DFFB1 /* ViewController.m */; };
 		88677BBC20A53AAA007DFFB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88677BBA20A53AAA007DFFB1 /* Main.storyboard */; };
@@ -24,8 +23,6 @@
 /* Begin PBXFileReference section */
 		8839B6D520A93B4600009765 /* DDAnimNumberLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDAnimNumberLabel.h; sourceTree = "<group>"; };
 		8839B6D620A93B4600009765 /* DDAnimNumberLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDAnimNumberLabel.m; sourceTree = "<group>"; };
-		8839B6D820A95D3500009765 /* UILabel+Copy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+Copy.h"; sourceTree = "<group>"; };
-		8839B6D920A95D3500009765 /* UILabel+Copy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Copy.m"; sourceTree = "<group>"; };
 		88677BB120A53AAA007DFFB1 /* DDEffects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDEffects.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88677BB420A53AAA007DFFB1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		88677BB520A53AAA007DFFB1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -60,8 +57,6 @@
 			children = (
 				8839B6D520A93B4600009765 /* DDAnimNumberLabel.h */,
 				8839B6D620A93B4600009765 /* DDAnimNumberLabel.m */,
-				8839B6D820A95D3500009765 /* UILabel+Copy.h */,
-				8839B6D920A95D3500009765 /* UILabel+Copy.m */,
 			);
 			path = DDAnimNumberLabel;
 			sourceTree = "<group>";
@@ -197,7 +192,6 @@
 				88677BD120A53B38007DFFB1 /* DDRotPopViewController.m in Sources */,
 				88677BB920A53AAA007DFFB1 /* ViewController.m in Sources */,
 				88677BEF20A57EA7007DFFB1 /* DDSleekSlider.m in Sources */,
-				8839B6DA20A95D3500009765 /* UILabel+Copy.m in Sources */,
 				88677BC420A53AB1007DFFB1 /* main.m in Sources */,
 				88677BB620A53AAA007DFFB1 /* AppDelegate.m in Sources */,
 			);

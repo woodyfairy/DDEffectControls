@@ -7,9 +7,12 @@
 //
 
 #import "DDAnimNumberLabel.h"
-//#import "UILabel+Copy.h"
 
-@interface DDAnimNumberLabel()
+@protocol DDAnimNumberLabelDelegate<NSObject>
+-(void)DDAnimNumberLabelAnimDone:(DDAnimNumberLabel *)label;
+@end
+
+@interface DDAnimNumberLabel()<DDAnimNumberLabelDelegate>
 @property (assign, nonatomic) float animTime;
 @property (assign, nonatomic) float upOffsetX;
 @property (assign, nonatomic) float upScale;
@@ -18,6 +21,18 @@
 @property (strong, nonatomic) NSMutableArray *arrayAnimLabels;
 @property (assign, nonatomic) double lastChangeTime;
 @property (assign, nonatomic) int targetNumber;
+
+//动画相关
+//@property (assign, nonatomic) CGAffineTransform targetTransform;
+@property (assign, nonatomic) float originalAlpha;
+@property (assign, nonatomic) float targetAlpha;
+@property (assign, nonatomic) float originalOffset;
+@property (assign, nonatomic) float targetOffset;
+@property (assign, nonatomic) float originalScale;
+@property (assign, nonatomic) float targetScale;
+@property (assign, nonatomic) double startAnimTime;
+@property (strong, nonatomic) NSTimer *timerForAnim;
+@property (weak, nonatomic) id<DDAnimNumberLabelDelegate> delegate;
 @end
 
 @implementation DDAnimNumberLabel
@@ -34,7 +49,7 @@
     return self;
 }
 -(void)initData{
-    _animTime = .2f;
+    _animTime = .25f;//主label中为默认动画时间，在分label中为单独的动画时间
     _upOffsetX = -150;
     _upScale = 2;
     _downOffsetX = 100;
@@ -66,73 +81,138 @@
     double time = [NSDate date].timeIntervalSinceReferenceDate - _lastChangeTime;
     _lastChangeTime = [NSDate date].timeIntervalSinceReferenceDate;
     time = MIN(time, _animTime);
-    time = MAX(time, 0.06f);
-    __block DDAnimNumberLabel *this = self;
+    time = MAX(time, 0.05f);
+    for (int i = 0; i < self.arrayAnimLabels.count; i++) {
+        DDAnimNumberLabel *label = self.arrayAnimLabels[i];
+        float timePercent = ([NSDate date].timeIntervalSinceReferenceDate - label.startAnimTime)/label.animTime;
+        //NSLog(@"percent:%f", timePercent);
+        if (timePercent > 0.1f) {
+            label.originalAlpha = label.originalAlpha + (label.targetAlpha - label.originalAlpha) * timePercent;
+            label.originalScale = label.originalScale + (label.targetScale - label.originalScale) * timePercent;
+            label.originalOffset = label.originalOffset + (label.targetOffset - label.originalOffset) * timePercent;
+            label.animTime = time * (1- timePercent);
+            [label startAnim];
+        }
+    }
+    //__block DDAnimNumberLabel *this = self;
     if (number > currentNum) {
         self.hidden = YES;
-        UILabel *now = [self copy];
+        DDAnimNumberLabel *now = [self copy];
         [self.superview addSubview:now];
         [self.arrayAnimLabels addObject:now];
-        UILabel *next = [self copy];
+        now.originalAlpha = 1;
+        now.originalScale = 1;
+        now.originalOffset = 0;
+        now.targetAlpha = 0;
+        now.targetScale = _upScale;
+        now.targetOffset = _upOffsetX;
+        
+        now.delegate = self;
+        [now startAnim];
+        
+        DDAnimNumberLabel *next = [self copy];
         next.text = [NSString stringWithFormat:@"%d", number];
         [self.superview insertSubview:next belowSubview:self];
         [self.arrayAnimLabels addObject:next];
-        CGAffineTransform downTrans = CGAffineTransformMakeScale(this.downScale, this.downScale);
-        downTrans = CGAffineTransformConcat(downTrans, CGAffineTransformMakeTranslation(this.downOffsetX, 0));
-        next.transform = downTrans;
-        next.alpha = 0;
-        [UIView animateWithDuration:time animations:^{
-            CGAffineTransform upTrans = CGAffineTransformMakeScale(this.upScale, this.upScale);
-            upTrans = CGAffineTransformConcat(upTrans, CGAffineTransformMakeTranslation(this.upOffsetX, 0));
-            now.transform = upTrans;
-            now.alpha = 0;
-            
-            next.transform = CGAffineTransformIdentity;
-            next.alpha = 1;
-        }completion:^(BOOL finished) {
-            [now removeFromSuperview];
-            [next removeFromSuperview];
-            [this.arrayAnimLabels removeObject:now];
-            [this.arrayAnimLabels removeObject:next];
-            if (this.arrayAnimLabels.count == 0) {
-                this.text = [NSString stringWithFormat:@"%d", this.targetNumber];
-                this.hidden = NO;
-            }
-        }];
+        next.originalAlpha = 0;
+        next.originalScale = _downScale;
+        next.originalOffset = _downOffsetX;
+        next.targetAlpha = 1;
+        next.targetScale = 1;
+        next.targetOffset = 0;
+        next.delegate = self;
+        [next startAnim];
+        
     }else if (number < currentNum){
         self.hidden = YES;
-        UILabel *next = [self copy];
+        DDAnimNumberLabel *next = [self copy];
         next.text = [NSString stringWithFormat:@"%d", number];
         [self.superview addSubview:next];
         [self.arrayAnimLabels addObject:next];
-        CGAffineTransform upTrans = CGAffineTransformMakeScale(this.upScale, this.upScale);
-        upTrans = CGAffineTransformConcat(upTrans, CGAffineTransformMakeTranslation(this.upOffsetX, 0));
-        next.transform = upTrans;
-        next.alpha = 0;
+        next.originalAlpha = 0;
+        next.originalScale = _upScale;
+        next.originalOffset = _upOffsetX;
+        next.targetAlpha = 1;
+        next.targetScale = 1;
+        next.targetOffset = 0;
+        next.delegate = self;
+        [next startAnim];
         
-        UILabel *now = [self copy];
+        DDAnimNumberLabel *now = [self copy];
         [self.superview insertSubview:now belowSubview:self];
         [self.arrayAnimLabels addObject:now];
-        [UIView animateWithDuration:time animations:^{
-            next.transform = CGAffineTransformIdentity;
-            next.alpha = 1;
-            
-            CGAffineTransform downTrans = CGAffineTransformMakeScale(this.downScale, this.downScale);
-            downTrans = CGAffineTransformConcat(downTrans, CGAffineTransformMakeTranslation(this.downOffsetX, 0));
-            now.transform = downTrans;
-            now.alpha = 0;
-        }completion:^(BOOL finished) {
-            [now removeFromSuperview];
-            [next removeFromSuperview];
-            [this.arrayAnimLabels removeObject:now];
-            [this.arrayAnimLabels removeObject:next];
-            if (this.arrayAnimLabels.count == 0) {
-                this.text = [NSString stringWithFormat:@"%d", this.targetNumber];
-                this.hidden = NO;
-            }
-        }];
+        now.originalAlpha = 1;
+        now.originalScale = 1;
+        now.originalOffset = 0;
+        
+        now.targetAlpha = 0;
+        now.targetScale = _downScale;
+        now.targetOffset = _downOffsetX;
+        now.delegate = self;
+        [now startAnim];
     }
     [super setText:[NSString stringWithFormat:@"%d", number]];
+}
+
+
+-(void)DDAnimNumberLabelAnimDone:(DDAnimNumberLabel *)label{
+    [label removeFromSuperview];
+    [self.arrayAnimLabels removeObject:label];
+    if (self.arrayAnimLabels.count == 0) {
+        self.text = [NSString stringWithFormat:@"%d", self.targetNumber];
+        self.hidden = NO;
+    }
+}
+
+
+-(void)startAnim{
+//    if (_animTime < 0.2f) {
+//        NSLog(@"time:%f", _animTime);
+//    }
+    
+    __block DDAnimNumberLabel *this = self;
+    [self.layer removeAllAnimations];
+    self.alpha = self.originalAlpha;
+    CGAffineTransform originalTrans = CGAffineTransformMakeScale(self.originalScale, self.originalScale);
+    originalTrans = CGAffineTransformConcat(originalTrans, CGAffineTransformMakeTranslation(self.originalOffset, 0));
+    self.transform = originalTrans;
+    [UIView animateWithDuration:_animTime animations:^{
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        CGAffineTransform targetTransform = CGAffineTransformMakeScale(self.targetScale, self.targetScale);
+        targetTransform = CGAffineTransformConcat(targetTransform, CGAffineTransformMakeTranslation(self.targetOffset, 0));
+        this.alpha = this.targetAlpha;
+        this.transform = targetTransform;
+    }];
+    if (_timerForAnim) {
+        [_timerForAnim invalidate];
+        _timerForAnim = nil;
+    }
+    _timerForAnim = [NSTimer scheduledTimerWithTimeInterval:_animTime repeats:NO block:^(NSTimer * _Nonnull timer) {
+        if (this.delegate && [this.delegate respondsToSelector:@selector(DDAnimNumberLabelAnimDone:)]) {
+            [this.delegate DDAnimNumberLabelAnimDone:this];
+        }
+    }];
+}
+
+
+
+-(instancetype)copy{
+    DDAnimNumberLabel *label = [[DDAnimNumberLabel alloc] initWithFrame:self.frame];
+    label.text = self.text;
+    label.textColor = self.textColor;
+    label.tintColor = self.tintColor;
+    label.font = self.font;
+    label.backgroundColor = self.backgroundColor;
+    label.clipsToBounds = self.clipsToBounds;
+    label.textAlignment = self.textAlignment;
+    label.numberOfLines = self.numberOfLines;
+    label.adjustsFontSizeToFitWidth = self.adjustsFontSizeToFitWidth;
+    label.minimumScaleFactor = self.minimumScaleFactor;
+    label.animTime = self.animTime;
+    
+    label.startAnimTime = [[NSDate date] timeIntervalSinceReferenceDate];
+    //... add others if need
+    return label;
 }
 
 @end
