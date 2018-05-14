@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface DDAnimNumberLabel : UILabel
-@property (assign, nonatomic) int number;
-
+//setText为直接改变文字（仅数字）
+@property (assign, nonatomic) int number;//动画改变数字
 @end

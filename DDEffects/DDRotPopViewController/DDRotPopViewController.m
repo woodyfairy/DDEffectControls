@@ -32,7 +32,7 @@
     if ([super init]) {
         self.contentView = view;
         self.initHeight = height;
-        self.animTime = 0.7f;
+        self.animTime = 0.6f;
     }
     return self;
 }
