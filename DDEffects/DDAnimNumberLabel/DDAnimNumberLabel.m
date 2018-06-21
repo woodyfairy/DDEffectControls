@@ -81,34 +81,49 @@
     double time = [NSDate date].timeIntervalSinceReferenceDate - _lastChangeTime;
     _lastChangeTime = [NSDate date].timeIntervalSinceReferenceDate;
     time = MIN(time, _animTime);
-    time = MAX(time, 0.05f);
-    for (int i = 0; i < self.arrayAnimLabels.count; i++) {
+    //time = MAX(time, 0.05f);
+    bool haveNowNumber = NO;
+    for (NSInteger i = self.arrayAnimLabels.count - 1; i >= 0; i --) {
         DDAnimNumberLabel *label = self.arrayAnimLabels[i];
         float timePercent = ([NSDate date].timeIntervalSinceReferenceDate - label.startAnimTime)/label.animTime;
         //NSLog(@"percent:%f", timePercent);
-        if (timePercent > 0.1f) {
+        if (timePercent > 0.02f) {
             label.originalAlpha = label.originalAlpha + (label.targetAlpha - label.originalAlpha) * timePercent;
             label.originalScale = label.originalScale + (label.targetScale - label.originalScale) * timePercent;
             label.originalOffset = label.originalOffset + (label.targetOffset - label.originalOffset) * timePercent;
             label.animTime = time * (1- timePercent);
             [label startAnim];
+            if (label.text.integerValue == self.text.integerValue) {
+                if (label.targetAlpha == 0) {
+                    haveNowNumber = YES;
+                }else{
+                    [label.timerForAnim invalidate];
+                    [label removeFromSuperview];
+                    [self.arrayAnimLabels removeObject:label];
+                }
+            }
+        }else{
+            [label.timerForAnim invalidate];
+            [label removeFromSuperview];
+            [self.arrayAnimLabels removeObject:label];
         }
     }
     //__block DDAnimNumberLabel *this = self;
     if (number > currentNum) {
         self.hidden = YES;
-        DDAnimNumberLabel *now = [self copy];
-        [self.superview addSubview:now];
-        [self.arrayAnimLabels addObject:now];
-        now.originalAlpha = 1;
-        now.originalScale = 1;
-        now.originalOffset = 0;
-        now.targetAlpha = 0;
-        now.targetScale = _upScale;
-        now.targetOffset = _upOffsetX;
-        
-        now.delegate = self;
-        [now startAnim];
+        if (haveNowNumber == NO) {
+            DDAnimNumberLabel *now = [self copy];
+            [self.superview addSubview:now];
+            [self.arrayAnimLabels addObject:now];
+            now.originalAlpha = 1;
+            now.originalScale = 1;
+            now.originalOffset = 0;
+            now.targetAlpha = 0;
+            now.targetScale = _upScale;
+            now.targetOffset = _upOffsetX;
+            now.delegate = self;
+            [now startAnim];
+        }
         
         DDAnimNumberLabel *next = [self copy];
         next.text = [NSString stringWithFormat:@"%d", number];
@@ -138,18 +153,19 @@
         next.delegate = self;
         [next startAnim];
         
-        DDAnimNumberLabel *now = [self copy];
-        [self.superview insertSubview:now belowSubview:self];
-        [self.arrayAnimLabels addObject:now];
-        now.originalAlpha = 1;
-        now.originalScale = 1;
-        now.originalOffset = 0;
-        
-        now.targetAlpha = 0;
-        now.targetScale = _downScale;
-        now.targetOffset = _downOffsetX;
-        now.delegate = self;
-        [now startAnim];
+        if (haveNowNumber == NO) {
+            DDAnimNumberLabel *now = [self copy];
+            [self.superview insertSubview:now belowSubview:self];
+            [self.arrayAnimLabels addObject:now];
+            now.originalAlpha = 1;
+            now.originalScale = 1;
+            now.originalOffset = 0;
+            now.targetAlpha = 0;
+            now.targetScale = _downScale;
+            now.targetOffset = _downOffsetX;
+            now.delegate = self;
+            [now startAnim];
+        }
     }
     [super setText:[NSString stringWithFormat:@"%d", number]];
 }

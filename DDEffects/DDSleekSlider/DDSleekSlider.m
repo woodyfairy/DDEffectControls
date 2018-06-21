@@ -122,6 +122,12 @@
     [self refresh];
 }
 -(void)handlePanGestureHandler:(UIPanGestureRecognizer *)gesture{
+    //先停止所有动画
+    if (_timerForAnim) {
+        [_timerForAnim invalidate];
+        _timerForAnim = nil;
+    }
+    
     if (gesture.state == UIGestureRecognizerStateBegan) {
         _touchStartPos = [gesture translationInView:self];
         _touchStartThumbPos = _thumbView.center;

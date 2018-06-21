@@ -59,13 +59,15 @@
     [buton2 addTarget:self action:@selector(tap2) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void)tap1{
-    [self.slider setValueWithAnimation:0 aminTime:0.25f];
+    float animTime = self.slider.value * 0.08f;
+    [self.slider setValueWithAnimation:0 aminTime: animTime];
 }
 -(void)tap2{
-    [self.slider setValueWithAnimation:self.slider.max aminTime:0.25f];
+    float animTime = (self.slider.max - self.slider.value) * 0.08f;
+    [self.slider setValueWithAnimation:self.slider.max aminTime: animTime];
 }
 -(void)DDSleekSliderDelegateValueChanged:(float)value{
-    [self.animLabel setNumber:(int)value];
+    [self.animLabel setNumber: round(value)];
 }
 
 
