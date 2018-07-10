@@ -10,6 +10,7 @@
 #import "DDRotPopViewController.h"
 #import "DDSleekSlider.h"
 #import "DDAnimNumberLabel.h"
+#import "WaveView.h"
 
 @interface ViewController ()<DDSleekSliderDelegate>
 @property (nonatomic, strong) DDSleekSlider *slider;
@@ -72,8 +73,9 @@
 
 
 - (IBAction)clickHomeBtn:(id)sender {
-    UIView *view = [[UIView alloc] init];
+    //UIView *view = [[UIView alloc] init];
     //view.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.5f];
+    WaveView *view = [[WaveView alloc] initWithFrame:CGRectMake(0, 0, 200, 300)];
     DDRotPopViewController *vc = [[DDRotPopViewController alloc] initWithView:view height:300];
     [vc show];
 }

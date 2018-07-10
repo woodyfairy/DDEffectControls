@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		882D958020F4463B00F9AB78 /* WaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 882D957F20F4463B00F9AB78 /* WaveView.m */; };
 		8839B6D720A93B4600009765 /* DDAnimNumberLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8839B6D620A93B4600009765 /* DDAnimNumberLabel.m */; };
 		88677BB620A53AAA007DFFB1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 88677BB520A53AAA007DFFB1 /* AppDelegate.m */; };
 		88677BB920A53AAA007DFFB1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88677BB820A53AAA007DFFB1 /* ViewController.m */; };
@@ -21,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		882D957E20F4463B00F9AB78 /* WaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveView.h; sourceTree = "<group>"; };
+		882D957F20F4463B00F9AB78 /* WaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveView.m; sourceTree = "<group>"; };
 		8839B6D520A93B4600009765 /* DDAnimNumberLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDAnimNumberLabel.h; sourceTree = "<group>"; };
 		8839B6D620A93B4600009765 /* DDAnimNumberLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDAnimNumberLabel.m; sourceTree = "<group>"; };
 		88677BB120A53AAA007DFFB1 /* DDEffects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDEffects.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +55,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		882D957D20F4462100F9AB78 /* DDWaveView */ = {
+			isa = PBXGroup;
+			children = (
+				882D957E20F4463B00F9AB78 /* WaveView.h */,
+				882D957F20F4463B00F9AB78 /* WaveView.m */,
+			);
+			path = DDWaveView;
+			sourceTree = "<group>";
+		};
 		8839B6D420A93AD300009765 /* DDAnimNumberLabel */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +92,7 @@
 		88677BB320A53AAA007DFFB1 /* DDEffects */ = {
 			isa = PBXGroup;
 			children = (
+				882D957D20F4462100F9AB78 /* DDWaveView */,
 				8839B6D420A93AD300009765 /* DDAnimNumberLabel */,
 				88677BEC20A57DA8007DFFB1 /* DDSleekSlider */,
 				88677BCA20A53AD3007DFFB1 /* DDRotPopViewController */,
@@ -189,6 +202,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8839B6D720A93B4600009765 /* DDAnimNumberLabel.m in Sources */,
+				882D958020F4463B00F9AB78 /* WaveView.m in Sources */,
 				88677BD120A53B38007DFFB1 /* DDRotPopViewController.m in Sources */,
 				88677BB920A53AAA007DFFB1 /* ViewController.m in Sources */,
 				88677BEF20A57EA7007DFFB1 /* DDSleekSlider.m in Sources */,
