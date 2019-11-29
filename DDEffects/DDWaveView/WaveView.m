@@ -43,7 +43,11 @@
         
         dispatch_source_set_event_handler(_timer, ^{
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self setNeedsDisplay];
+                if (self.superview) {
+                    [self setNeedsDisplay];
+                }else{
+                    dispatch_source_cancel(self.timer);
+                }
             });
         });
         
@@ -51,6 +55,9 @@
         
     }
     return self;
+}
+-(void)dealloc{
+    NSLog(@"dealloc");
 }
 
 -(void)drawRect:(CGRect)rect{
